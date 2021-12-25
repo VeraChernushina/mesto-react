@@ -2,6 +2,7 @@ import React from "react";
 
 import Header from "./Header";
 import Main from "./Main";
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -9,9 +10,7 @@ function App() {
       <div className="page">
         <Header />
         <Main />
-        <footer className="footer page__footer">
-          <p className="footer__copyright">&copy;2021 Mesto Russia</p>
-        </footer>
+        <Footer />
 
         <div className="popup popup_type_avatar">
           <div className="popup__container">
