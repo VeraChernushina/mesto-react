@@ -1,17 +1,20 @@
 import React from "react";
 
+import logoHeader from './images/logo-header.svg';
+import avatarLoading from './images/avatar-loading.png';
+
 function App() {
   return (
     <div>
      <div className="page">
     <header className="header page__header">
-      <img className="header__logo" src="<%=require('./images/logo-header.svg')%>" alt="Логотип сайта Место." />
+      <img className="header__logo" src={logoHeader} alt="Логотип сайта Место." />
     </header>
 
     <main className="content">
       <section className="profile page__profile">
         <div className="profile__card">
-          <img className="profile__avatar" src="<%=require('./images/avatar-loading.png')%>" alt="Аватар пользователя" />
+          <img className="profile__avatar" src={avatarLoading} alt="Аватар пользователя" />
           <button className="profile__avatar-btn"></button>
           <div className="profile__info">
             <h1 className="profile__title"></h1>
