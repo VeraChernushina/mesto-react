@@ -1,16 +1,13 @@
 import React from "react";
 
-import logoHeader from './images/logo-header.svg';
-import avatarLoading from './images/avatar-loading.png';
+import Header from "./Header";
+import avatarLoading from '../images/avatar-loading.png';
 
 function App() {
   return (
     <div>
      <div className="page">
-    <header className="header page__header">
-      <img className="header__logo" src={logoHeader} alt="Логотип сайта Место." />
-    </header>
-
+    <Header />
     <main className="content">
       <section className="profile page__profile">
         <div className="profile__card">
