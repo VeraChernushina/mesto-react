@@ -24,6 +24,12 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   };
 
+  const closeAllPopups = () => {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  }
+
   return (
     <div>
       <div className="page">
@@ -39,6 +45,7 @@ function App() {
           name="avatar"
           title="Обновить аватар"
           isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
         >
           <fieldset className="form__set">
             <input
@@ -60,6 +67,7 @@ function App() {
           name="edit"
           title="Редактировать профиль"
           isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
         >
           <fieldset className="form__set">
             <input
@@ -94,6 +102,7 @@ function App() {
           name="new-card"
           title="Новое место"
           isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
         >
           <fieldset className="form__set">
             <input
