@@ -2,7 +2,7 @@ import React from "react";
 import api from "../utils/api";
 import Card from "./Card";
 
-const Main = (props) => {
+const Main = ({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) => {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
@@ -43,14 +43,14 @@ const Main = (props) => {
           />
           <button
             className="profile__avatar-btn"
-            onClick={props.onEditAvatar}
+            onClick={onEditAvatar}
           ></button>
           <div className="profile__info">
             <h1 className="profile__title">{userName}</h1>
             <button
               type="button"
               className="profile__edit-button"
-              onClick={props.onEditProfile}
+              onClick={onEditProfile}
             ></button>
             <p className="profile__description">{userDescription}</p>
           </div>
@@ -59,16 +59,15 @@ const Main = (props) => {
         <button
           type="button"
           className="profile__add-button"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         ></button>
       </section>
 
       <section className="elements">
         {cards.map((card) => {
-          return <Card
-            key={card._id} 
-            card={card}
-          />
+          return (
+            <Card key={card._id} card={card} onCardClick={onCardClick} />
+          );
         })}
       </section>
     </main>
