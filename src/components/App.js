@@ -148,20 +148,6 @@ function App() {
           </div>
         </div>
       </div>
-
-      <template className="element-template">
-        <li className="element">
-          <img className="element__img" />
-          <div className="element__bottom-block">
-            <h3 className="element__title"></h3>
-            <div className="element__likes">
-              <button type="button" className="element__like-btn"></button>
-              <span className="element__likes-number"></span>
-            </div>
-            <button type="button" className="element__delete-btn"></button>
-          </div>
-        </li>
-      </template>
     </div>
   );
 }
