@@ -6,7 +6,7 @@ const Card = ({ card, onCardClick }) => {
   };
 
   return (
-    <li className="element">
+    <div className="element">
       <img
         className="element__img"
         src={card.link}
@@ -21,7 +21,7 @@ const Card = ({ card, onCardClick }) => {
         </div>
         <button type="button" className="element__delete-btn"></button>
       </div>
-    </li>
+    </div>
   );
 };
 
