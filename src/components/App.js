@@ -5,6 +5,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import api from "../utils/api";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -13,6 +14,18 @@ function App() {
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState({});
+
+  React.useEffect(() => {
+    api
+      .getUserInfo()
+      .then((data) => {
+        setCurrentUser(data);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }, []);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -26,7 +39,7 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   };
 
-  const handleCardClick = card => {
+  const handleCardClick = (card) => {
     setSelectedCard(card);
   };
 
@@ -138,7 +151,7 @@ function App() {
             </button>
           </fieldset>
         </PopupWithForm>
-        <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
         <div className="popup popup_type_delete-card">
           <div className="popup__container">
