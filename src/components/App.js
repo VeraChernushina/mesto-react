@@ -8,6 +8,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -53,8 +54,19 @@ function App() {
 
   const handleUpdateUser = (newUserInfo) => {
     api.setUserInfo(newUserInfo)
-    .then((data) =>{
-      setCurrentUser(data)
+    .then((data) => {
+      setCurrentUser(data);
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
+  };
+
+  const handleUpdateAvatar = (data) => {
+    api.setUserAvatar(data)
+    .then((data) => {
+      setCurrentUser(data);
       closeAllPopups();
     })
     .catch((err) => {
@@ -81,27 +93,7 @@ function App() {
         />
         <Footer />
 
-        <PopupWithForm
-          name="avatar"
-          title="Обновить аватар"
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-        >
-          <fieldset className="form__set">
-            <input
-              type="url"
-              name="avatar"
-              id="avatar"
-              placeholder="Ссылка на картинку"
-              className="form__input"
-              required
-            />
-            <span id="avatar-error" className="form__input-error"></span>
-            <button type="submit" className="form__submit">
-              Сохранить
-            </button>
-          </fieldset>
-        </PopupWithForm>
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
