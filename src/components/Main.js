@@ -35,7 +35,17 @@ const Main = ({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) => {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
-  }
+  };
+
+  function handleCardDelete(cardId) {
+    api.deleteCard(cardId)
+    .then(() => {
+      setCards((cards) => cards.filter(card => card._id !== cardId));
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
+  };
 
   return (
     <main className="content">
@@ -76,6 +86,7 @@ const Main = ({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) => {
               card={card}
               onCardClick={onCardClick}
               onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
             />
           );
         })}
