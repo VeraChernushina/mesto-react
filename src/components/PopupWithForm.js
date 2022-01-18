@@ -10,6 +10,7 @@ const PopupWithForm = (props) => {
           name={`${props.name}`}
           action="#"
           className="popup__form form"
+          onSubmit={props.onSubmit}
           noValidate>
           {props.children}
         </form>

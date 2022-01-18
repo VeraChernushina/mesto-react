@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -50,6 +51,17 @@ function App() {
     setSelectedCard(card);
   };
 
+  const handleUpdateUser = (newUserInfo) => {
+    api.setUserInfo(newUserInfo)
+    .then((data) =>{
+      setCurrentUser(data)
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
+  };
+
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -91,40 +103,11 @@ function App() {
           </fieldset>
         </PopupWithForm>
 
-        <PopupWithForm
-          name="edit"
-          title="Редактировать профиль"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        >
-          <fieldset className="form__set">
-            <input
-              type="text"
-              name="username"
-              id="name"
-              placeholder="Имя"
-              minLength="2"
-              maxLength="40"
-              className="form__input"
-              required
-            />
-            <span id="name-error" className="form__input-error"></span>
-            <input
-              type="text"
-              name="job"
-              id="job"
-              placeholder="Вид деятельности"
-              minLength="2"
-              maxLength="200"
-              className="form__input"
-              required
-            />
-            <span id="job-error" className="form__input-error"></span>
-            <button type="submit" className="form__submit">
-              Сохранить
-            </button>
-          </fieldset>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           name="new-card"
