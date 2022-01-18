@@ -41,19 +41,10 @@ class Api {
       .then(res => this._parseResponse(res));
   }
 
-  // Ставим лайк карточке
-  setLike(cardId) {
+  // like/dislike
+  changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: 'PUT',
-      headers: this._headers
-    })
-      .then(res => this._parseResponse(res));
-  }
-
-  // Удаляем лайк
-  deleteLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: 'DELETE',
+      method: `${!isLiked ? 'DELETE' : 'PUT'}`,
       headers: this._headers
     })
       .then(res => this._parseResponse(res));
