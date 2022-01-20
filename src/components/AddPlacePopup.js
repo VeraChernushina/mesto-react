@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
+const AddPlacePopup = ({ isOpen, onClose, onAddPlace, onLoading }) => {
     const [image, setImage] = useState('');
     const [description, setDescription] = useState('');
 
@@ -54,7 +54,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
             />
             <span id="link-error" className="form__input-error"></span>
             <button type="submit" className="form__submit">
-              Создать
+            {onLoading ? "Сохранение..." : "Создать"}
             </button>
           </fieldset>
         </PopupWithForm>

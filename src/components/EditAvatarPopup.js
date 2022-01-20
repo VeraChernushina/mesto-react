@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
+const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, onLoading }) => {
     const avatarRef = useRef();
 
     function handleSubmit(e) {
@@ -32,7 +32,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
             />
             <span id="avatar-error" className="form__input-error"></span>
             <button type="submit" className="form__submit">
-              Сохранить
+            {onLoading ? "Сохранение..." : "Сохранить"}
             </button>
           </fieldset>
         </PopupWithForm>

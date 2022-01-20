@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -65,7 +65,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
         />
         <span id="job-error" className="form__input-error"></span>
         <button type="submit" className="form__submit">
-          Сохранить
+          {onLoading ? "Сохранение..." : "Сохранить"}
         </button>
       </fieldset>
     </PopupWithForm>

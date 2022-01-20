@@ -25,6 +25,7 @@ function App() {
     cohort: "",
   });
   const [cards, setCards] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     api
@@ -91,6 +92,7 @@ function App() {
   }
 
   const handleUpdateUser = (newUserInfo) => {
+    setIsLoading(true);
     api
       .setUserInfo(newUserInfo)
       .then((data) => {
@@ -99,10 +101,14 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   const handleUpdateAvatar = (newData) => {
+    setIsLoading(true);
     api
       .setUserAvatar(newData)
       .then((data) => {
@@ -111,18 +117,26 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   const handleAddPlaceSubmit = (newData) => {
-    api.addCard(newData)
-    .then((newCard) => {
-      setCards([newCard, ...cards]);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    });
+    setIsLoading(true);
+    api
+      .addCard(newData)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const closeAllPopups = () => {
@@ -151,38 +165,24 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          onLoading={isLoading}
         />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          onLoading={isLoading}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          onLoading={isLoading}
         />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-
-        <div className="popup popup_type_delete-card">
-          <div className="popup__container">
-            <button type="button" className="popup__close"></button>
-            <h3 className="popup__title">Вы уверены?</h3>
-            <form
-              name="delete-form"
-              action="#"
-              className="popup__form form"
-              noValidate
-            >
-              <button type="submit" className="form__submit">
-                Да
-              </button>
-            </form>
-          </div>
-        </div>
       </div>
     </CurrentUserContext.Provider>
   );
