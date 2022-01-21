@@ -4,7 +4,6 @@ import logoHeader from '../images/logo-header.svg';
 
 const Header = () => {
   return (
-    <>
       <header className="header page__header">
         <img
           className="header__logo"
@@ -12,7 +11,6 @@ const Header = () => {
           alt="Логотип сайта Место."
         />
       </header>
-    </>
   );
 };
 

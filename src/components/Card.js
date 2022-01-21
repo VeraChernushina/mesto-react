@@ -44,13 +44,12 @@ const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
           />
           <span className="element__likes-number">{card.likes.length}</span>
         </div>
-        {isOwn && (
-          <button
+        {isOwn && <button
             type="button"
             className="element__delete-btn"
             onClick={handleDeleteClick}
           />
-        )}
+          }
       </div>
     </div>
   );
