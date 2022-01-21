@@ -4,8 +4,8 @@ import PopupWithForm from "./PopupWithForm";
 
 const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -15,11 +15,6 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
     setDescription(event.target.value);
   };
 
-  useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser, isOpen]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -28,6 +23,11 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
       job: description,
     });
   };
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser, isOpen]);
 
   return (
     <PopupWithForm
@@ -47,7 +47,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
           maxLength="40"
           className="form__input"
           required
-          value={name}
+          value={name || ''}
           onChange={handleNameChange}
         />
         <span id="name-error" className="form__input-error"></span>
@@ -60,7 +60,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
           maxLength="200"
           className="form__input"
           required
-          value={description}
+          value={description || ''}
           onChange={handleDescriptionChange}
         />
         <span id="job-error" className="form__input-error"></span>
