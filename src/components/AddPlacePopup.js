@@ -1,26 +1,22 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
+import useForm from "../hooks/useForm";
 
 const AddPlacePopup = ({ isOpen, onClose, onAddPlace, onLoading }) => {
-    const [image, setImage] = useState('');
-    const [description, setDescription] = useState('');
-
-    const handleImageChange = (event) => {
-        setImage(event.target.value)
-    };
-
-    const handleDescriptionChange = (event) => {
-        setDescription(event.target.value)
-    };
+  const {enteredValues, errors, handleChange, isFormValid, resetForm} = useForm();
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         onAddPlace({
-            name: description,
-            link: image
+            name: enteredValues.title,
+            link: enteredValues.link
         });
     };
+
+    useEffect(() => {
+      resetForm()
+    }, [ resetForm, isOpen ])
 
     return (
         <PopupWithForm
@@ -33,27 +29,29 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, onLoading }) => {
           <fieldset className="form__set">
             <input
               type="text"
-              name="name"
+              name="title"
               id="title"
               placeholder="Название"
               minLength="2"
               maxLength="30"
               className="form__input"
-              onChange={handleDescriptionChange}
+              onChange={handleChange}
               required
+              value={enteredValues.title || ''}
             />
-            <span id="title-error" className="form__input-error"></span>
+            {errors.title && <span id="title-error" className="form__input-error">{errors.title}</span>}
             <input
               type="url"
               name="link"
               id="link"
               placeholder="Ссылка на картинку"
               className="form__input"
-              onChange={handleImageChange}
+              onChange={handleChange}
               required
+              value={enteredValues.link || ''}
             />
-            <span id="link-error" className="form__input-error"></span>
-            <button type="submit" className="form__submit">
+            {errors.link && <span id="link-error" className="form__input-error">{errors.link}</span>}
+            <button type="submit" className="form__submit" disabled={!isFormValid}>
             {onLoading ? "Сохранение..." : "Создать"}
             </button>
           </fieldset>
