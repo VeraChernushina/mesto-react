@@ -9,25 +9,30 @@ import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import PopupWithConfirmation from "./PopupWithConfirmation";
 
 function App() {
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
+    React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
+    React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [removedCardId, setRemovedCardId] = React.useState('');
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then(([ userData, initialCards ]) => {
-      setCurrentUser(userData);
-      setCards(initialCards);
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    });
+      .then(([userData, initialCards]) => {
+        setCurrentUser(userData);
+        setCards(initialCards);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   }, []);
 
   const handleEditAvatarClick = () => {
@@ -61,11 +66,17 @@ function App() {
       });
   }
 
+  const handleCardDeleteClick = (cardId) => {
+    setIsConfirmationPopupOpen(!isConfirmationPopupOpen);
+    setRemovedCardId(cardId);
+  }
+
   function handleCardDelete(cardId) {
     api
       .deleteCard(cardId)
       .then(() => {
         setCards((cards) => cards.filter((card) => card._id !== cardId));
+        closeAllPopups();
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -124,6 +135,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsConfirmationPopupOpen(false);
     setSelectedCard({});
   };
 
@@ -138,7 +150,7 @@ function App() {
           onCardClick={handleCardClick}
           cards={cards}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onCardDeleteClick={handleCardDeleteClick}
         />
         <Footer />
 
@@ -161,6 +173,14 @@ function App() {
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
           onLoading={isLoading}
+        />
+
+        <PopupWithConfirmation
+          isOpen={isConfirmationPopupOpen}
+          onClose={closeAllPopups}
+          onLoading={isLoading}
+          onSubmit={handleCardDelete}
+          card={removedCardId}
         />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
