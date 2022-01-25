@@ -1,33 +1,25 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
+import useForm from "../hooks/useForm";
 
 const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
-  };
+  const { enteredValues, errors, handleChange, isFormValid, resetForm } = useForm();
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     onUpdateUser({
-      username: name,
-      job: description,
+      name: enteredValues.name,
+      about: enteredValues.about,
     });
   };
 
   useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser, isOpen]);
+    currentUser ? resetForm(currentUser) : resetForm()
+  }, [ resetForm, isOpen, currentUser ]);
 
   return (
     <PopupWithForm
@@ -40,31 +32,31 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
       <fieldset className="form__set">
         <input
           type="text"
-          name="username"
+          name="name"
           id="name"
           placeholder="Имя"
           minLength="2"
           maxLength="40"
           className="form__input"
           required
-          value={name || ''}
-          onChange={handleNameChange}
+          value={enteredValues.name || ""}
+          onChange={handleChange}
         />
-        <span id="name-error" className="form__input-error"></span>
+        {errors.name && <span id="name-error" className="form__input-error">{errors.name}</span>}
         <input
           type="text"
-          name="job"
-          id="job"
+          name="about"
+          id="about"
           placeholder="Вид деятельности"
           minLength="2"
           maxLength="200"
           className="form__input"
           required
-          value={description || ''}
-          onChange={handleDescriptionChange}
+          value={enteredValues.about || ""}
+          onChange={handleChange}
         />
-        <span id="job-error" className="form__input-error"></span>
-        <button type="submit" className="form__submit">
+        {errors.about && <span id="job-error" className="form__input-error">{errors.about}</span>}
+        <button type="submit" className="form__submit" disabled={!isFormValid}>
           {onLoading ? "Сохранение..." : "Сохранить"}
         </button>
       </fieldset>
